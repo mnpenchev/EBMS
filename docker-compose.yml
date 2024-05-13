@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+  web:
+    build: ./ebms
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./ebms:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  client:
+    build: ./ebms_vue
+    volumes:
+      - ./ebms_vue:/app
+    ports:
+      - "8080:8080"

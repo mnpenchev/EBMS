@@ -39,6 +39,7 @@ MIDDLEWARE = [
 ]
 
 REST_FRAMEWORK = {
+    'NON_FIELD_ERRORS_KEY': 'error',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DEFAULT_RENDERER_CLASSES': [
@@ -70,6 +71,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'HOST': 'DB_HOST',
+        # 'NAME': 'DB_NAME',
+        # 'USER': 'DB_USER',
+        # 'PASSWORD': 'DB_PASS',
     }
 }
 
@@ -100,4 +106,16 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/static/'
+MEDIA_URL = '/static/media/'
+STATIC_ROOT = '/vol/web/static'
+MEDIA_ROOT = '/vol/web/media'
+
+
+#  Emailer
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = EMAIL_USER
+# EMAIL_HOST_PASSWORD = EMAIL_PASSWORD
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
