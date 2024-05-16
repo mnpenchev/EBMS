@@ -3,7 +3,7 @@ from django.urls import path, include
 from users.views import WhoAmIView, LoginAPIView, LogoutAPIView
 
 urlpatterns = [
-    path('aadmin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('api/v1/whoami/', WhoAmIView.as_view(), name='whoami'),
     path('api/v1/login/', LoginAPIView.as_view(), name='login'),
     path('api/v1/logout/', LogoutAPIView.as_view(), name='logout'),

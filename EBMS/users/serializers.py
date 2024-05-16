@@ -4,8 +4,23 @@ from .models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
-        read_only_fields = ['created', 'updated']
+        fields = [
+                  'id',
+                  'email',
+                  'first_name',
+                  'last_name',
+                  'title',
+                  'is_active',
+                  'is_staff',
+                  'is_superuser',
+                  'created',
+                  'updated',
+                  'role',
+                  'groups',
+                  'user_permissions'
+                  ]
+        extra_kwargs = {'password': {'write_only': True}}
+        read_only_fields = ['created']
 
 
 class LoginSerializer(serializers.Serializer):

@@ -1,18 +1,21 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div v-if="currentUser">
+      Hi {{ currentUser.first_name }} {{ currentUser.last_name }}
+      Your e-mail is: {{ currentUser.email }}
+    </div>
+    <div v-else>
+      <router-link to="/">Please log in.</router-link>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
-  name: 'HomeView',
-  components: {
-    HelloWorld
+  computed: {
+    currentUser() {
+      return this.$store.state.currentUser;
+    }
   }
 }
 </script>
