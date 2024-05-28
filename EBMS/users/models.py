@@ -25,12 +25,13 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=150, blank=True)
-    last_name = models.CharField(max_length=150, blank=True)
-    title = models.CharField(max_length=15, choices=[('MR', 'Mr'),
-                                                     ('MS', 'Ms'),
-                                                     ('MISS', 'Miss'),
-                                                     ('MRS', 'Mrs')])
+    first_name = models.CharField(max_length=150, blank=True, null=True)
+    last_name = models.CharField(max_length=150, blank=True, null=True)
+    title = models.CharField(max_length=15, choices=[
+        ('MR', 'Mr'),
+        ('MS', 'Ms'),
+        ('MISS', 'Miss'),
+        ('MRS', 'Mrs')], blank=True, null=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -46,7 +47,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('SA', 'Sales'),
         ('MS', 'Supply')
     ]
-    role = models.CharField(max_length=2, choices=ROLES, default='CU')
+    role = models.CharField(max_length=2, choices=ROLES, default='CU', blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

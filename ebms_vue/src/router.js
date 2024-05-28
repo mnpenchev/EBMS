@@ -17,6 +17,11 @@ export default function createRouterWithStore(store) {
       name: 'About',
       component: () => import('@/views/AboutView.vue')
     },
+    {
+      path: '/register',
+      name: 'Register',
+      component: () => import('@/views/RegisterView.vue')
+    },
   ]
 
   const router = createRouter({
@@ -25,7 +30,7 @@ export default function createRouterWithStore(store) {
   })
 
   router.beforeEach((to, from, next) => {
-    const loggedInPages = ['/', '/register']
+    const loggedInPages = ['/', '/users']
     const loggedIn = store.state.isLoggedIn
   
     if (loggedInPages.includes(to.path) && loggedIn) {

@@ -1,9 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
+from django.core.exceptions import ValidationError
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
+from rest_framework.exceptions import ValidationError as DRFValidationError
 from .models import User
 from .serializers import UserSerializer, LoginSerializer
 from .permissions import IsSelfOrAdminUser
@@ -14,7 +16,6 @@ class UserListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
 
     def get(self, request):
-        print(request.user)
         if request.user.is_authenticated:
             if request.user.is_staff:
                 queryset = self.get_queryset()
@@ -27,11 +28,16 @@ class UserListCreateAPIView(generics.ListCreateAPIView):
 
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        print(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        if serializer.is_valid():
+            email = serializer.validated_data.get('email')
+            # Check if the email is already in use
+            if User.objects.filter(email=email).exists():
+                raise DRFValidationError({"email": ["User with this email already exists."]})
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()

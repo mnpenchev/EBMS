@@ -36,7 +36,7 @@ export default {
       if (success) {
         this.$router.push('/home')
       } else {
-        console.error(error)
+        alert(user.error)
       }
     }
   }
